@@ -1,0 +1,89 @@
+{# Lci/BoilerBoxBundle/Resources/views/loginLayout.html.twig #}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Accueil du site boiler-box" />
+	<meta name="viewport" content="width=device-width, initial-scale=0.5, shrink-to-fit=no">
+
+    <title>{% block title %}boiler-box {% endblock title %}</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}" media='screen' />
+
+    <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+</head>
+
+<body>
+<div id='siteIpc'>
+    <div id='messagebox' class='cacher'>
+        <div id='messageboxTexte'>
+        </div>
+        <div class='right'><a href='#' style="height:30px;" onClick="validation_messagebox();return false;" ><div class='bouton green'><div class='bgbouton'>ok</div></div></a></div>
+    </div>
+
+    <div id='menu_boiler' class='notToBePrinted'>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <div id='userLabel'>
+                {{ app.user.getLabel() }}
+                {% if is_granted("ROLE_ADMIN") %}
+                    (Administrateur)
+                {% elseif is_granted('ROLE_RESPONSABLE_PARC') %}
+                    (Technicien)
+                {% elseif is_granted('ROLE_TECHNICIEN') %}
+                    (Technicien)
+                {% else %}
+                    (Client)
+                {% endif %}
+                <a href="{{ path('fos_user_security_logout') }}" id='lienDeconnexion' title='Déconnexion'>Déconnexion</a>
+            </div>
+            {% if is_granted("ROLE_ADMIN") %}
+                {% if app.user.getUsername() == 'Admin' %}
+					<div class='menu_boiler'>
+                    	<a href="{{ path('lci_gestion_admin') }}" title='Administration'>Administration</a>
+                    	<br />
+					</div>
+                {% endif %}
+            {% endif %}
+			<div class='menu_boiler'>
+            	<a href="{{ path('lci_change_password') }}" title='ChangementMotDePasse'>Changer son mot de passe</a><br />
+			</div>
+            {% if is_granted('ROLE_RESPONSABLE_PARC') %}
+				<div class='menu_boiler'>
+                	<a href="{{ path('lci_gestion_parc') }}" title='GestionParc'>Gestion du parc {% if nombre_problemes_affectes is defined %}({{ nombre_problemes_affectes }}){% endif %}</a><br />
+				</div>
+            {% elseif is_granted('ROLE_TECHNICIEN') %}
+				<div class='menu_boiler'>
+                 	<a href="{{ path('lci_problemes_affectes') }}" title='GestionParc'>Problè techniques {% if nombre_problemes_affectes is defined %}({{ nombre_problemes_affectes }}){% endif %}</a><br />
+				</div>
+            {% endif %}
+        {% else %}
+			<div class='menu_boiler'>
+            	{#<a href="{{ path('fos_user_security_login') }}" id='lienDeconnexion' title='Connexion'>Connexion</a>#}
+			</div>
+        {% endif %}
+    </div>
+
+
+    <div class='up_titre_page'>
+        <p>{% include "form/version_boilerbox.html.twig" %}</p>
+    </div>
+
+    {% block body %}
+    {% endblock body %}
+
+    {% block messageFlash %}
+        {% for message in app.session.flashbag.get('info') %}
+            <span class='message_flashinfo'> - {{ message }}</span>
+        {% endfor %}
+    {% endblock %}
+</div>
+
+{%  include "connexion/connexion.js" %}
+
+
+{% block javascript %}
+{% endblock javascript %}
+
+</body>
+</html>
+

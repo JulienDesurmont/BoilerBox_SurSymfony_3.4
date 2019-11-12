@@ -1,0 +1,139 @@
+{# src/Lci/BoilerBoxBundle/Resources/views/Bons/visualiser_sitesBA.html.twig #}
+
+{% extends "LciBoilerBoxBundle::secondBonsLayout.html.twig" %}
+
+{% block meta_viewport %}
+    <meta name="viewport" content="width=device-width, initial-scale=0.3, shrink-to-fit=no">
+{% endblock meta_viewport %}
+
+{% block title %}{{ parent() }} : Sites{% endblock title %}
+
+{% block class_menu_boiler %} elargir {% endblock class_menu_boiler %}
+
+{% block liens_css %}
+	{{ parent() }}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/bons_attachement.css') }}" media='screen' />
+{% endblock liens_css %}
+
+{% block fos_user_content %}
+	<h1 id='titre_affichage_siteBA'>Sites d'interventions</h1>
+	<div id='div_principal'>
+	    <div id='encart_de_selection_du_site'>
+			<h1>Sélection du site</h1>
+	        <select name='liste_sitesBA' id='liste_sitesBA' onChange='afficher_site()'>
+	            {% for site in ents_sitesBA %}
+	                <option id="{{ site.id }}">{{ site.intitule }}</option>
+	            {% endfor %}
+	        </select>
+	    </div>
+
+	    <div id='encart_du_site_actif'>
+			<div id='informations_site'>
+	        	<div><h1>{{ ent_siteBA_actif.intitule }}</h1></div>
+
+				<div><h2>Adresse</h2></div>
+				<div><div class='adresse'>{{ ent_siteBA_actif.adresse }}</div></div>
+
+				<div><h2>Contact</h2></div>
+				<div><div>Contact : {{ ent_siteBA_actif.contact }}</div></div>
+				{% if ent_siteBA_actif.telContact is not null %}
+					{% if ent_siteBA_actif.emailContact is not null %}
+						<div><div class='contact'>Joignable au {{ ent_siteBA_actif.telContact }} ou par email à l'adresse {{ ent_siteBA_actif.emailContact }}</div></div>
+					{% else %}
+						<div><div class='contact'>Joignable au {{ ent_siteBA_actif.telContact }}</div></div>
+					{% endif %}
+				{% else %}
+					{% if ent_siteBA_actif.emailContact is not null %}
+						<div><div class='contact'>Joignable par email à l'adresse {{ ent_siteBA_actif.emailContact }}</div></div>
+					{% endif %}
+				{% endif %}
+
+				<div><h2>Informations complémentaires</h2></div>
+				<div><div class='informations'>{{ ent_siteBA_actif.informationsClient | nl2br }}</div></div>
+			</div>
+	    </div>
+
+		<div id='encart_map_site'>
+            <div>
+				{% if ent_siteBA_actif.lienGoogle is not null %}
+					<div id='map' style='height:450px; width:535px' class='cacher'></div>
+					<iFrame id='mapIFrame' src="{{ ent_siteBA_actif.lienGoogle  }}" width="535" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+				{% else %}
+					<p>Aucune carte enregistrée</p>
+				{% endif %}
+			</div>
+        </div>
+	</div>
+	
+	<h1>Liste des fichiers</h1>
+	<div id='encart_fichiers_joint'>
+		{% if ent_siteBA_actif.fichiersJoint is not null %}
+			{% for fichier in ent_siteBA_actif.fichiersJoint %}
+				<div>
+					<a 
+					id="{{ fichier.siteBA.id }}_{{ fichier.id }}" 
+                    href="{{ asset('uploads/bonsAttachement/fichiersDesSitesBA/' ~ fichier.siteBA.id ~ '_' ~  fichier.url) }}#"
+					download="{{ fichier.alt }}" 
+					>
+					{{ fichier.alt }}
+					</a>
+					<br />
+					{% if fichier.extension in ['jpeg', 'png', 'jpg']  %}
+						<a href="{{ asset('uploads/bonsAttachement/fichiersDesSitesBA/' ~ fichier.siteBA.id ~ '_' ~  fichier.url) }}" data-lightbox="image">
+							<img src="{{ asset('uploads/bonsAttachement/fichiersDesSitesBA/' ~ fichier.siteBA.id ~ '_' ~  fichier.url) }}" height='150px'>
+						</a>
+					{% elseif fichier.extension in ['txt', 'pdf'] %}
+						 <iframe src="{{ asset('uploads/bonsAttachement/fichiersDesSitesBA/' ~ fichier.siteBA.id ~ '_' ~  fichier.url) }}" ></iframe>
+					{% else %}
+						<div width="250px" height="150px" ></div>
+					{% endif %}
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+
+    <div id="validation_formulaire_end_portrait">
+        <div class='validation_formulaire_end notToBePrinted'>
+            <img    onClick="attente(); redirection('accueilBons'); return false;"
+                    class="btn_menu"
+                    alt="Retour au menu"
+                    src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_retour_menu.png') }}"
+                    onmouseover=this.src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_retour_menu_hover.png') }}"
+                    onmouseout=this.src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_retour_menu.png') }}"
+            />
+        </div>
+    </div>
+
+
+	<script type='text/javascript'>
+		function afficher_site() {
+			$site_id = $('#liste_sitesBA option:selected').attr('id');
+			var $url = $('#liens').attr('data-sitesBAVisualiser') + '/' +  $site_id;
+			document.location.href = $url;
+		}	
+
+		function initAutocomplete() {
+			if (("{{ latitude }}" != "") && ("{{ longitude }}" != ""))  {
+				$('#mapIFrame').addClass('cacher');
+				$('#map').removeClass('cacher');
+				var $objPos = {};
+				$objPos.lat = parseFloat("{{ latitude }}");
+        		$objPos.lng = parseFloat("{{ longitude }}");
+				var maCarte = new google.maps.Map(document.getElementById('map'), {
+					center: $objPos,
+					zoom: parseInt("{{ zoomApi }}"),
+					mapTypeId: 'satellite'
+				});
+				var monMarqueur = new google.maps.Marker({
+					position: $objPos,
+					map: maCarte
+				});
+			}
+		}
+	</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ apiKey }}&libraries=places&callback=initAutocomplete"  async defer></script>
+
+{% endblock fos_user_content %}
+
+

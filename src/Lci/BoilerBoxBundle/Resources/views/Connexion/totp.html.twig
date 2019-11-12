@@ -1,0 +1,51 @@
+{# Lci/BoilerBoxBundle/Resources/views/firstLayout.html.twig #}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{% block title %}Boiler-Box {% endblock title %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="L'interface de supervision des chaudières industrielles." />
+    <meta name="title" content="BoilerBox - Accueil" />
+    {% block meta_viewport %}
+        <meta name="viewport" content="width=device-width, initial-scale=0.5, shrink-to-fit=no">
+    {% endblock meta_viewport %}
+
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/lciboilerbox/css/authentification.css') }}" />
+</head>
+
+<body>
+	{% block body %}
+		<h1>Authentification à double facteur</h1>
+		{% if qrcode is defined %}
+			<p>Veuillez scanner le QrCode ci-dessous avec l'application [
+				<a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=fr" target="_blank">
+					<span class="lien">Google Authenticator</span>
+				</a>
+				] et inscrire le code dans l'encart prévu à cet effet.
+			</p>
+		{% endif %}
+		<form action="{{ path('lci_boilerbox_accesSite') }}" method="post" name='myForm' id='myForm' data-logout={{ path('fos_user_security_logout') }}>
+			{% if qrcode is defined %}
+				<img src="{{ qrcode }}" alt="QrCode" /><br /><br />
+			{% endif %}
+			{% for message in app.session.flashbag.get('info') %}
+                <span class='message_info_erreur'>{{ message }}</span>
+            {% endfor %}
+            <br /><br />
+			<input type='text' id="totp_key" name="totp_key" placeholder="Placez ici le code généré" required>
+			<br /><br /><br />
+			<input type='submit' value='Envoyer'>
+			<input type='reset' value='Annuler' onClick='logout();'>
+		</form>
+	{% endblock body %}
+
+
+    {% javascripts
+        'js/jquery.js'
+        'bundles/lciboilerbox/js/authentification.js'
+    %}
+        <script type='text/javascript' src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+</body>
+
+</html>

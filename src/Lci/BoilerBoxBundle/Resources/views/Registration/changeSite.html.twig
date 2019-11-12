@@ -1,0 +1,64 @@
+{# src/Lci/BoilerBoxBundle/Resources/views/Registration/changeSite.html.twig #}
+{% extends "LciBoilerBoxBundle::secondBoilerLayout.html.twig" %}
+
+{% block fos_user_content %}
+
+{{ parent() }}
+
+<div class='listing'>
+	<div class='ajout_objet'>
+		<h1>Modification du site</h1>
+	    <div class='formulaire'>
+			{{ form_start(form, {'action':path('lci_site_update', {'idSite':entity_site.id}), 'method':'POST', 'name':'myForm'}) }}
+
+                <div class='ligne_error'>{{ form_errors(form.intitule) }}</div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_widget(form.intitule) }}</div></div>
+
+                <div class='ligne_error'>{{ form_errors(form.affaire) }}</div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_widget(form.affaire) }}</div></div>
+
+				<div class='ligne_error'>{{ form_errors(form.typeSite) }}</div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_label(form.typeSite) }}</div></div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_widget(form.typeSite) }}</div></div>
+
+                <div class='ligne_error'>{{ form_errors(form.url) }}</div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_widget(form.url) }}</div></div>
+
+                <div class='ligne_error'>{{ form_errors(form.accesDistant) }}</div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_label(form.accesDistant) }}</div></div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_widget(form.accesDistant) }}</div></div>
+
+				<div class='ligne_error'>{{ form_errors(form.connexion3g) }}</div>
+				<div class='nouveau_probleme_ligne'><div>{{ form_label(form.connexion3g) }}</div></div>
+            	<div class='nouveau_probleme_ligne'><div>{{ form_widget(form.connexion3g) }}</div></div>
+
+                <div class='ligne_error'>{{ form_errors(form.connexionAdsl) }}</div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_label(form.connexionAdsl) }}</div></div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_widget(form.connexionAdsl) }}</div></div>
+
+                <div class='ligne_error'>{{ form_errors(form.configBoilerBox) }}</div>
+				<div class='nouveau_probleme_ligne'><div>{{ form_label(form.configBoilerBox) }}</div></div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_widget(form.configBoilerBox) }}</div></div>
+
+			{{ form_end(form) }}
+	    </div>
+		<div class='validation_formulaire'>
+			<img 	onClick="attente(); document.forms['myForm'].submit();" 
+					class="btn_menu" 
+					alt="Modifier le site"
+					src="{{ asset('bundles/lciboilerbox/images/administration/boutons/btn_modifier_site.png') }}"  
+					onmouseover=this.src="{{ asset('bundles/lciboilerbox/images/administration/boutons/btn_modifier_site_hover.png') }}" 
+					onmouseout=this.src="{{ asset('bundles/lciboilerbox/images/administration/boutons/btn_modifier_site.png') }}" />
+
+			<img 	onClick="attente(); redirection('menuSite');" 
+					class="btn_menu" 
+					alt="Annuler"
+					src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_annuler.png') }}" 				
+					onmouseover=this.src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_annuler_hover.png') }}" 				 
+					onmouseout=this.src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_annuler.png') }}" />
+		</div>
+	</div>
+</div>
+
+{% endblock fos_user_content %}
+

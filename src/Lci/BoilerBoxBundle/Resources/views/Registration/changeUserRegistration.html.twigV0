@@ -1,0 +1,60 @@
+{# src/Lci/BoilerBoxBundle/Entity/Resources/views/Registration/changeUserRegistration.html.twig #}
+
+{% extends "LciBoilerBoxBundle::secondBoilerLayout.html.twig" %}
+
+{% block title %}{{ parent() }} Utilisateur{% endblock title %}
+
+{% block body %}
+    <div class='formulaire'>
+    <div id='titre_page'>
+        <h1>Modification de l'utilisateur</h1>
+    </div>
+    <div id='corp_page'>
+	<form method='POST' name='myForm'  action={{ path('lci_accueil_register_user') }} />
+	<input type='hidden' name='idUtilisateur' value="{{ user.id }}" />
+	<input type='hidden' name='choixAction' value='updateUser' />
+        <table class='register_formulaire'>
+            <tr>
+                <td>Nom d'utilisateur</td>
+                <td class='register_mid'><input type='text' name='username' value="{{ user.username }}" /></td>
+            </tr>
+            <tr>
+                <td>Adresse e-mail</td>
+		<td class='register_mid'><input type='text' name='email' value="{{ user.email }}" /></td>
+	    </tr>
+            <tr>
+                <td>Label</td>
+	        <td class='register_mid'><input type='text' name='label' value="{{ user.label }}" /></td>
+            </tr>
+	    <tr>
+                <td>Compte actif</td>
+		<td class='register_mid'><input type='checkbox' name='actif' {% if user.enabled == 1 %}checked{% endif %} /></td>
+	    </tr>
+            <tr>
+                <td>Roles</td>
+                <td><select name='Role'>
+		        <option value='ROLE_USER'>Client</option>
+			<option value='ROLE_TECHNICIEN'>Technicien</option>
+			<option value='ROLE_ADMIN'>Admin</option>
+		    </select> 
+		</td>
+            </tr>
+        </table>
+        <div class='validationFormulaire'>
+            <div class='right'>
+		<a href='#' style="height:30px;" onClick="document.forms['myForm'].submit();return false;" ><div class='bouton green'><div class='bgbouton'>Modifier l'utilisateur</div></div></a><br />
+            	<a href='#' style="height:30px;" onClick="annuleFormulaire();return false;" ><div class='bouton green'><div class='bgbouton'>Annuler</div></div></a>
+	    </div>
+        </div>
+	</form>
+    </div>
+    </div>
+
+<script type='text/javascript'>
+    function annuleFormulaire()
+    {
+        var url={{ path('lci_accueil_register_user')|json_encode|raw }}
+        $(location).attr('href',url);
+    }
+</script>
+{% endblock body %}
