@@ -126,11 +126,11 @@ public function problemeTechniqueRegistrationAction(Request $request) {
             return $this->redirect($this->generateUrl('lci_affiche_problemeTechnique'));
         }
 	} else {
-		if (isset($_POST['lci_boilerboxbundle_problemeTechnique']['id'])) {
-			if ($_POST['lci_boilerboxbundle_problemeTechnique']['id'] != null) {
+		if (isset($_POST['probleme_technique']['id'])) {
+			if ($_POST['probleme_technique']['id'] != null) {
 				// Update
 				$type_probleme = 'update';
-				$entity_probleme_technique = $this->getDoctrine()->getManager()->getRepository('LciBoilerBoxBundle:ProblemeTechnique')->find($_POST['lci_boilerboxbundle_problemeTechnique']['id']);	
+				$entity_probleme_technique = $this->getDoctrine()->getManager()->getRepository('LciBoilerBoxBundle:ProblemeTechnique')->find($_POST['probleme_technique']['id']);	
 				$session->set('id_entity_probleme_technique', $entity_probleme_technique->getId());
 				$titre = 'Problème technique';
 			} else {
@@ -161,7 +161,7 @@ public function problemeTechniqueRegistrationAction(Request $request) {
 				}
 
 				// Si il s'agit de la création d'un nouveau ticket : // Création d'un ticket par module
-				if ($_POST['lci_boilerboxbundle_problemeTechnique']['id'] == null ) {
+				if ($_POST['probleme_technique']['id'] == null ) {
 					$tab_ticket = array();
 					foreach ($entity_probleme_technique->getModule() as $module) {
 						$tab_ticket[] = clone($entity_probleme_technique);

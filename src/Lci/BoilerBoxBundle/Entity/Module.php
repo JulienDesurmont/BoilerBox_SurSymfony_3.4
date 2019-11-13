@@ -33,6 +33,7 @@ class Module
      *
      * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
      * @ORM\OrderBy({"numero" = "ASC"})
+     * @Assert\NotBlank(message="Veuillez indiquer un numéro valide") 
     */
     protected $numero;
 
@@ -40,6 +41,7 @@ class Module
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Veuillez indiquer le type du module")
     */
     protected $type;
 
@@ -62,12 +64,11 @@ class Module
 	protected $fichiersJoint;
 	*/
 
-
     /**
      * @var string
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Veuillez indiquer le nom du module")
      *  
-     * @Orm\Column(type="string")
+     * @ORM\Column(type="string")
     */
     protected $nom;
 

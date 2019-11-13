@@ -48,6 +48,13 @@
 					{% endfor %}
 				</tbody>
 			</table>
+			<p style='padding-left:10px; font-size:0.9em;'>	
+				<span style='font-style:italic;'>Légende :</span><br />
+				<span style='color:green;''>Equipement actif et fonctionnel</span><br />
+				<span style='color:orange;'>Problèmes (non bloquants) sur l'équipement</span><br />
+				<span style='color:red;'>Problèmes bloquants sur l'équipement</span><br />
+				<span style='color:#5858FA;'>Equipement non actif</span><br />
+			</p>
 			<form name='form_tri' method='post' action={{ path('lci_tri_parc_equipements') }} />
 				<input type='hidden' name='champs_tri' id='champs_tri' />
 			</form>

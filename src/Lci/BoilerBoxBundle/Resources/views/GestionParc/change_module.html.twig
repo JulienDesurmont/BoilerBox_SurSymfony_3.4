@@ -42,32 +42,32 @@
 
 <script type='text/javascript'>	
 	$(document).ready(function(){
-		$('#lci_boilerboxbundle_module_actif').click(function() {
-			var $isNotChecked = $('#lci_boilerboxbundle_module_actif').is(':checked');
+		$('#module_actif').click(function() {
+			var $isNotChecked = $('#module_actif').is(':checked');
 			if (! $isNotChecked) {
 				if (confirm('Désactivation du module demandé !')) {
 					/* OK */
 					/* change OK + checked => not checked*/
-					$('#lci_boilerboxbundle_module_actif').prop('checked', false);
+					$('#module_actif').prop('checked', false);
 				} else {
 					/* change ANNULER + checked => checked */
-            	    $('#lci_boilerboxbundle_module_actif').prop('checked', true);
+            	    $('#module_actif').prop('checked', true);
 				}
 			}
 		});
 
-		if ($('#lci_boilerboxbundle_module_present').is(':checked')){
+		if ($('#module_present').is(':checked')){
 			$('#presence').html('Présent');
 			$('.site_module').addClass('cacher');
 		} else {
 			$('#presence').html('Absent');
 			$('.site_module').removeClass('cacher');
 		}
-        $('#lci_boilerboxbundle_module_present').change(function(){
-			$('#lci_boilerboxbundle_module_dateMouvement').val($.format.date(new Date(), 'dd-MM-yyyy'));
-            if ($('#lci_boilerboxbundle_module_present').is(':checked')){
+        $('#module_present').change(function(){
+			$('#module_dateMouvement').val($.format.date(new Date(), 'dd-MM-yyyy'));
+            if ($('#module_present').is(':checked')){
 				$('#presence').html('Présent');
-				$('#lci_boilerboxbundle_module_site').val('');
+				$('#module_site').val('');
 				$('.site_module').addClass('cacher');
             } else {
 				$('#presence').html('Absent');

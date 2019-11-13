@@ -123,30 +123,30 @@
 	$(document).ready(function() {
 		// Affichage des informations de résolution cachées si le ticket est résolu
         if ("{{ entity_probleme.corrige }}" != ""){
-			$('#lci_boilerboxbundle_problemeTechnique_corrige').attr('checked', 'checked');
+			$('#problemeTechnique_corrige').attr('checked', 'checked');
             if ("{{ entity_probleme.dateCorrection|date('d-m-Y') }}" != ""){
-                $('#lci_boilerboxbundle_problemeTechnique_dateCorrection').val("{{ form.dateCorrection.vars.value }}");
+                $('#problemeTechnique_dateCorrection').val("{{ form.dateCorrection.vars.value }}");
                 $('.divCorrection').removeClass('invisible');
             }	
         } else {
-			$('#lci_boilerboxbundle_problemeTechnique_corrige').removeAttr('checked');
+			$('#problemeTechnique_corrige').removeAttr('checked');
 		}
 
 		// Affichage ou Cache des informations de résolution lors du clic sur la checkbox
-		$('#lci_boilerboxbundle_problemeTechnique_corrige').change(function(){
-            if ($('#lci_boilerboxbundle_problemeTechnique_corrige').is(':checked')) {
+		$('#problemeTechnique_corrige').change(function(){
+            if ($('#problemeTechnique_corrige').is(':checked')) {
                 if ("{{ form.corrige.vars.checked }}" == true){
                     if ("{{ form.dateCorrection.vars.value }}" != ""){
-                        $('#lci_boilerboxbundle_problemeTechnique_dateCorrection').val("{{ form.dateCorrection.vars.value }}");
+                        $('#problemeTechnique_dateCorrection').val("{{ form.dateCorrection.vars.value }}");
                     } else {
-                        $('#lci_boilerboxbundle_problemeTechnique_dateCorrection').val($.format.date(new Date(), 'dd-MM-yyyy'));
+                        $('#problemeTechnique_dateCorrection').val($.format.date(new Date(), 'dd-MM-yyyy'));
                     }
                 } else {
-                    $('#lci_boilerboxbundle_problemeTechnique_dateCorrection').val($.format.date(new Date(), 'dd-MM-yyyy'));
+                    $('#problemeTechnique_dateCorrection').val($.format.date(new Date(), 'dd-MM-yyyy'));
                 }
                 $('.divCorrection').removeClass('invisible');
             } else {
-				$('#lci_boilerboxbundle_problemeTechnique_dateCorrection').val("");
+				$('#problemeTechnique_dateCorrection').val("");
                 $('.divCorrection').addClass('invisible');
             }
         });

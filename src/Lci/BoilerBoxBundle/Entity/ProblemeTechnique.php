@@ -5,7 +5,7 @@ namespace Lci\BoilerBoxBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Context\ExecutionContext;
 
 /**
  * ProblemeTechnique
@@ -457,7 +457,7 @@ class ProblemeTechnique
   /**
    * @Assert\Callback
    */
-  public function isContentValid(ExecutionContextInterface $context)
+  public function isContentValid(ExecutionContext $context)
   {
 	if (count($this->getModule()) == 0){
 		/*

@@ -93,7 +93,7 @@
 				<h1 id='titre_nouveau_siteBA'>Nouveau site</h1>
 				<a href='https://goo.gl/maps/RG2zoSZrbis8vsqj6' target='google'><span style='color:green; text-decoration:underline'>Accès Google Map</span></a>
 				<div class='formulaire taille_texte_moyen'>
-					{{ form_start(form_site, {attr: {'id': 'lci_boilerboxbundle_site_ba'}}) }}
+					{{ form_start(form_site, {attr: {'id': 'site_ba'}}) }}
 					{{ form_errors(form_site) }}
 						<input type='hidden' name='id_site_ba' id='id_site_ba' />
 
@@ -132,7 +132,7 @@
                     {{ form_rest(form_site) }}
 					{{ form_end(form_site) }}
     		    	<div class='validation_formulaire_centre notToBePrinted'>
-        	    		<img    onClick="attente(); document.forms['lci_boilerboxbundle_site_ba'].submit(); return false;"
+        	    		<img    onClick="attente(); document.forms['site_ba'].submit(); return false;"
         	    		        class="btn_menu"
         	    		        alt="Valider"
         	    		        src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_enregistrer.png') }}"
@@ -289,7 +289,7 @@
         $("#bons_attachement_dateFinIntervention" ).datepicker();
 
 		/* Récupération du container contenant l'attribut data-prototype */
-		$container = $('#bonsAttachement_fichiersPdf');
+		$container = $('#bons_attachement_fichiersPdf');
 		/* Récupération du container des fichiers des SitesBA */
 		$container_site = $('#site_ba_fichiersJoint');
 	

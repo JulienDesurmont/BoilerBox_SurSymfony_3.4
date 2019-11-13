@@ -97,12 +97,21 @@ public function saisieAction(Request $request) {
 				$sujet = "Affectation d'un nouveau bon d'attachement";
 				$tab_message = array();
 				$tab_message['titre'] = "Une nouvelle intervention vous est affectée";
-				$tab_message['site'] = "Sur le site : ".$ent_bons_attachement->getSite()->getIntitule()." ( ".$ent_bons_attachement->getNumeroAffaire()." ) ";
+				$tab_message['site'] = $ent_bons_attachement->getSite()->getIntitule()." ( ".$ent_bons_attachement->getNumeroAffaire()." ) ";
+				$messages_contact = "";
 				if (($ent_bons_attachement->getNomDuContact() != null) || ($ent_bons_attachement->getEmailContactClient() != null)) {
-					$tab_message['contact'] = "Votre contact sur site est : ".$ent_bons_attachement->getNomDuContact()." ( ".$ent_bons_attachement->getEmailContactClient()." ) ";
+					if ($ent_bons_attachement->getNomDuContact() != null) {
+						$messages_contact = "Votre contact sur site est : ".$ent_bons_attachement->getNomDuContact();
+						if ($ent_bons_attachement->getEmailContactClient() != null) {
+							$messages_contact .= " ( ".$ent_bons_attachement->getEmailContactClient()." ) ";
+						}
+					} else if ($ent_bons_attachement->getEmailContactClient() != null) {
+						$messages_contact .= "Le mail du contact sur site est : ".$ent_bons_attachement->getEmailContactClient();
+					}
 				} else {
-					$tab_message['contact'] = "Aucun contact sur site n'a été renseigné";
+					$messages_contact = "Aucun contact sur site n'a été renseigné";
 				}
+				$tab_message['contact'] = $messages_contact;
 				$liste_fichiers = "";
 				foreach($ent_bons_attachement->getFichiersPdf() as $fichier) {
 					$liste_fichiers .= $fichier->getAlt().' ';
@@ -307,7 +316,7 @@ public function modifierUnBonAction($idBon, Request $request) {
 			$request->getSession()->getFlashBag()->add('info', 'Bon '.$entity_bon->getNumeroBA().' modifié.');
 			$_POST['id_bon'] = $entity_bon->getId();
 			// Retour vers la visualisation du bon
-			return $this->afficherUnBonAction();
+			return $this->afficherUnBonAction($request);
 		} else {
 			$request->getSession()->getFlashBag()->add('info', $form->getErrors(true));
 		}
@@ -373,6 +382,7 @@ public function afficherUnBonAction(Request $request) {
 			$id_bon = $request->getSession()->get('idBonAttachement', null);
 		}
 	} else {
+		echo "ici";
 		$id_bon = $request->getSession()->get('idBonAttachement', null);
 	}
 	if (! isset($id_bon)) {

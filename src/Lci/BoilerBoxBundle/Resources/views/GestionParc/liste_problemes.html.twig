@@ -211,6 +211,7 @@
 	}
 
 	function afficheInfos(reference, cloture, corrige, bloquant, texte) {
+		$('#entete_de_page').addClass('invisible');
 		var classe = 'probleme taille_texte_grand';
 		if (cloture == 1) {
 			classe = 'ok taille_texte_grand';
@@ -226,6 +227,7 @@
 	}
 
 	function resetInfos() {
+		$('#entete_de_page').removeClass('invisible');
 		$("#description_du_ticket").html('');
 	}
 

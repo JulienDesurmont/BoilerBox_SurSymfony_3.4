@@ -92,30 +92,30 @@
 <script type='text/javascript'>
     $(document).ready(function(){
         /* Mise en place de l'objet datepicker */
-		$("#lci_boilerboxbundle_rechercheBonsAttachement_dateMin" ).datepicker();
-		$("#lci_boilerboxbundle_rechercheBonsAttachement_dateMax" ).datepicker();
-        $("#lci_boilerboxbundle_rechercheBonsAttachement_dateMinInitialisation" ).datepicker();
-        $("#lci_boilerboxbundle_rechercheBonsAttachement_dateMaxInitialisation" ).datepicker();
+		$("#rechercheBonsAttachement_dateMin" ).datepicker();
+		$("#rechercheBonsAttachement_dateMax" ).datepicker();
+        $("#rechercheBonsAttachement_dateMinInitialisation" ).datepicker();
+        $("#rechercheBonsAttachement_dateMaxInitialisation" ).datepicker();
 
-        $("#lci_boilerboxbundle_rechercheBonsAttachement_dateMinIntervention" ).datepicker();
-        $("#lci_boilerboxbundle_rechercheBonsAttachement_dateMaxIntervention" ).datepicker();
+        $("#rechercheBonsAttachement_dateMinIntervention" ).datepicker();
+        $("#rechercheBonsAttachement_dateMaxIntervention" ).datepicker();
 
 
 
-		$('#lci_boilerboxbundle_rechercheBonsAttachement_sensValidation_0').click(function() {
+		$('#rechercheBonsAttachement_sensValidation_0').click(function() {
 			selectionValideur(true);
 			$('#checkbox_validation').addClass('invisible');
 		});
-		$('#lci_boilerboxbundle_rechercheBonsAttachement_sensValidation_1').click(function() {
+		$('#rechercheBonsAttachement_sensValidation_1').click(function() {
             selectionValideur(true);
 			$('#checkbox_validation').removeClass('invisible');
         });
-		$('#lci_boilerboxbundle_rechercheBonsAttachement_sensValidation_2').click(function() {
+		$('#rechercheBonsAttachement_sensValidation_2').click(function() {
 			selectionValideur(false);
 			$('#checkbox_validation').removeClass('invisible');
         });
 
-		$('#lci_boilerboxbundle_rechercheBonsAttachement_sensValidation_0').trigger("click");
+		$('#rechercheBonsAttachement_sensValidation_0').trigger("click");
 
     });
 
@@ -123,10 +123,10 @@
 	// Lors de la selection d'un choix bons validés ou bons non validés, on autorise ou pas la selection du valideur
 	function selectionValideur($sens) {
 		if ($sens == false) {
-			$('#lci_boilerboxbundle_rechercheBonsAttachement_valideur').prop('disabled', true);
-			$('#lci_boilerboxbundle_rechercheBonsAttachement_valideur :nth-child(1)').prop('selected', 'selected');
+			$('#rechercheBonsAttachement_valideur').prop('disabled', true);
+			$('#rechercheBonsAttachement_valideur :nth-child(1)').prop('selected', 'selected');
 		} else {
-			$('#lci_boilerboxbundle_rechercheBonsAttachement_valideur').prop('disabled', false);
+			$('#rechercheBonsAttachement_valideur').prop('disabled', false);
 		}
 	}
 </script>

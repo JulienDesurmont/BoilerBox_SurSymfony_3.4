@@ -272,8 +272,8 @@ public function changeEquipementsAction(Request $request) {
     $em = $this->getDoctrine()->getManager();
     if (isset($_POST['id_equipement'])) {
         $idEquipement = $_POST['id_equipement'];
-    } elseif (isset($_POST['lci_boilerboxbundle_equipement']['id'])) {
-        $idEquipement = $_POST['lci_boilerboxbundle_equipement']['id'];
+    } elseif (isset($_POST['equipement']['id'])) {
+        $idEquipement = $_POST['equipement']['id'];
     } else {
         $request->getSession()->getFlashBag()->add('info', 'Equipement non renseigné');
         return $this->redirect($this->generateUrl('lci_gestion_equipements'));

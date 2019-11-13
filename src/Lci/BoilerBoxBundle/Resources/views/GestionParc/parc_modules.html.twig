@@ -50,6 +50,13 @@
 					{% endfor %}
 				</tbody>
 			</table>
+            <p style='padding-left:10px; font-size:0.9em;'>
+                <span style='font-style:italic;'>Légende :</span><br />
+                <span style='color:green;''>Module présent et fonctionnel</span><br />
+                <span style='color:orange;'>Module présent avec problème(s) non bloquant(s)</span><br />
+                <span style='color:red;'>Module présent avec problème(s) bloquant(s)</span><br />
+                <span style='color:#5858FA;'>Module non présent</span><br />
+            </p>
 			<form name='form_tri' method='post' action={{ path('lci_tri_parc_modules') }} />
 				<input type='hidden' name='champs_tri' id='champs_tri' />
 			</form>

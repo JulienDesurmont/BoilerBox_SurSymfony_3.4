@@ -14,9 +14,9 @@
 	    <div class='formulaire'>
 			{{ form_start(form, {'action':path('lci_register_module', {'provenance':provenance}), 'method':'POST', 'name':'myForm'}) }}
 			{{ form_errors(form) }}
-			<div>{{ form_widget(form.numero) }}</div>
-	        <div>{{ form_widget(form.nom) }}</div>
-	        <div>{{ form_widget(form.type) }}</div>
+			<div>{{ form_errors(form.numero) }}{{ form_widget(form.numero) }}</div>
+	        <div>{{ form_errors(form.nom) }}{{ form_widget(form.nom) }}</div>
+	        <div>{{ form_errors(form.type) }}{{ form_widget(form.type) }}</div>
 			<div>{{ form_widget(form.present) }}{{ form_label(form.present) }}</div>
 	        <div>{{ form_widget(form.actif) }}{{ form_label(form.actif) }}</div>
 			<div class='cacher'>

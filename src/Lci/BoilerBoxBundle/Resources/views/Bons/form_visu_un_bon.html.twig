@@ -401,7 +401,7 @@
         $("#bons_attachement_validation_dateSignature" ).datepicker();
 
         /* Récupération du container contenant l'attribut data-prototype */
-        $container = $('#bons_attachement_validation_fichiersPdf');
+        $container = $('#bons_attachement_modification_fichiersPdf');
 
 		/* Calcul du nombre de fichiers déjà présent */
 	    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
@@ -418,7 +418,7 @@
         /* Ajout d'un listener pour créer un nouveau champs lors du clic sur le lien */
         $addLink.click(function(e){
             ajoutChampFichier();
-			$('#bons_attachement_validation_fichiersPdf_' + ( $indexFichier - 1 ) + '_file').trigger("click");
+			$('#bons_attachement_modification_fichiersPdf_' + ( $indexFichier - 1 ) + '_file').trigger("click");
             e.preventDefault();
             return false;
         });
@@ -572,7 +572,7 @@
 
     // Fonction qui ajout un champs 'Nouveau fichier' en remplacant le label et le nom par l'index du fichier
     function ajoutChampFichier() {
-        var $nouveauPrototype = $($('#bons_attachement_validation_fichiersPdf').data('prototype').replace(/__name__label__/g, '').replace(/__name__/g, $indexFichier));
+        var $nouveauPrototype = $($('#bons_attachement_modification_fichiersPdf').data('prototype').replace(/__name__label__/g, '').replace(/__name__/g, $indexFichier));
 
         // Création et ajout d'un lien de suppression en fin de container
         $deleteLink = $('<a href="#" class="mini_link">Supprimer</a>');

@@ -34,16 +34,16 @@
 
 <script type='text/javascript'>	
 	$(document).ready(function(){
-		$('#lci_boilerboxbundle_equipement_actif').click(function() {
-			var $isNotChecked = $('#lci_boilerboxbundle_equipement_actif').is(':checked');
+		$('#equipement_actif').click(function() {
+			var $isNotChecked = $('#equipement_actif').is(':checked');
 			if (! $isNotChecked) {
 				if (confirm('Désactivation de l'équipement demandé !')) {
 					/* OK */
 					/* change OK + checked => not checked*/
-					$('#lci_boilerboxbundle_equipement_actif').prop('checked', false);
+					$('#equipement_actif').prop('checked', false);
 				} else {
 					/* change ANNULER + checked => checked */
-            	    $('#lci_boilerboxbundle_equipement_actif').prop('checked', true);
+            	    $('#equipement_actif').prop('checked', true);
 				}
 			}
 		});

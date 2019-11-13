@@ -82,10 +82,10 @@
         $.datepicker.setDefaults({
             numberOfMonths: 2
         });
-		$("#lci_boilerboxbundle_bonsAttachement_dateSignature" ).datepicker();
+		$("#bonsAttachement_dateSignature" ).datepicker();
 
 		/* Récupération du container contenant l'attribut data-prototype */
-		$container = $('#lci_boilerboxbundle_bonsAttachement_fichiersPdf');
+		$container = $('#bonsAttachement_fichiersPdf');
 	
 		/* Lien permettant l'ajout d'un nouveau fichier */
 		var $addLink = $('<a href="#" id="add_fichier" class="small_link">Ajouter un fichier</a>');
@@ -103,7 +103,7 @@
 
 	// Fonction qui ajout un champs 'Nouveau fichier' en remplacant le label et le nom par l'index du fichier
 	function ajoutChampFichier() {
-		var $nouveauPrototype = $($('#lci_boilerboxbundle_bonsAttachement_fichiersPdf').data('prototype').replace(/__name__label__/g, '').replace(/__name__/g, $indexFichier));
+		var $nouveauPrototype = $($('#bonsAttachement_fichiersPdf').data('prototype').replace(/__name__label__/g, '').replace(/__name__/g, $indexFichier));
 
 	 	// Création et ajout d'un lien de suppression en fin de container
         $deleteLink = $('<a href="#" class="mini_link">Supprimer</a>');
