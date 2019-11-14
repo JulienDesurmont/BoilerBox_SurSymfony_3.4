@@ -1,0 +1,14 @@
+#!/bin/sh
+
+case "$1" in
+	'start' )
+		"/var/www/html/BoilerBox/web/sh/GestionSystem/demarrageSymfony.sh"
+	;;
+	'stop' )
+		"/var/www/html/BoilerBox/web/sh/GestionSystem/arretSymfony.sh"
+	;;
+	*)
+		echo "Usage: $0 {start|stop}"
+		exit 1
+	;;
+esac
