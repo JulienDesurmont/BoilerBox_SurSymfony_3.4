@@ -72,7 +72,7 @@ class LciResettingController extends BaseController
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
-        if (null !== $user && !$user->isPasswordRequestNonExpired($this->retryTtl)) {
+        if (null !== $user && !$user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.retry_ttl'))) {
 			return $this->redirectToRoute('fos_user_resetting_send_email', [
     			'request' => $request
 			], 307);
