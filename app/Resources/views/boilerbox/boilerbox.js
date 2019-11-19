@@ -29,28 +29,28 @@ $(document).ready(function() {
 
 
     function redirection($from) {
-        var url;
+        var $url;
         switch($from) {
 			case 'menuGestionParcModules' :
 				if (document.location.pathname.substr(-9) == 'problemes') {
-					url = $('#liens').attr('data-parcModules');
+					$url = $('#liens').attr('data-parcModules');
 				} else {
-					url = $('#liens').attr('data-retourMenu');
+					$url = $('#liens').attr('data-retourMenu');
 				}
 				break;
             case 'menuGestionParcEquipements' :
                 if (document.location.pathname.substr(-9) == 'problemes') {
-                    url = $('#liens').attr('data-parcEquipements');
+                    $url = $('#liens').attr('data-parcEquipements');
                 } else {
-                    url = $('#liens').attr('data-retourMenu');
+                    $url = $('#liens').attr('data-retourMenu');
                 }
                 break;
             default:
                 var $lien = 'data-' + $from;
-                url = $('#liens').attr($lien);
+                $url = $('#liens').attr($lien);
                 break;
         }
-        $(location).attr('href', url);
+        $(location).attr('href', $url);
     }
 
     // Affichage de l'image du loader pour indiquer que la page est en cours de chargement

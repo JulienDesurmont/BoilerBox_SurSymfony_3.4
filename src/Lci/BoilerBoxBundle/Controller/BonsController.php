@@ -382,7 +382,6 @@ public function afficherUnBonAction(Request $request) {
 			$id_bon = $request->getSession()->get('idBonAttachement', null);
 		}
 	} else {
-		echo "ici";
 		$id_bon = $request->getSession()->get('idBonAttachement', null);
 	}
 	if (! isset($id_bon)) {
