@@ -22,20 +22,15 @@ class detectLoginListener {
 		$this->serviceLog = $serviceLog;
     }
 
-/*
-    public function successLogin(AuthenticationEvent $event) {
-		if ($_SERVER['PATH_INFO'] == '/login_check') {
-        	$token = $event->getAuthenticationToken();
-        	// Modification des informations
-        	$this->detectLogin->enregistreConnexion('SUCCESS', $this->dateConnexion, $token);
-			$this->detectLogin->verif_totp_key($token->getUser());
-		}
-    }
-*/
-
     public function successLogin(InteractiveLoginEvent $event) {
-		$this->serviceLog->setLog('Test','connexions.log');
-        if ($_SERVER['PATH_INFO'] == '/login_check') {
+		// Pour debug : Affiche toutes les variables de serveur dans le fichier connexions.log
+		/*
+        foreach($_SERVER as $key => $value) {
+            $this->serviceLog->setLog($key." = ".$value,'connexions.log');
+        }
+		*/
+
+        if (preg_match('/login_check$/i',$_SERVER['REQUEST_URI'])) {
             $token = $event->getAuthenticationToken();
             // Modification des informations
             $this->detectLogin->enregistreConnexion('SUCCESS', $this->dateConnexion, $token);
@@ -45,7 +40,7 @@ class detectLoginListener {
 
 
     public function failedLogin(AuthenticationEvent $event) {
-		if ($_SERVER['PATH_INFO'] == '/login_check') {
+		if (preg_match('/login_check$/i',$_SERVER['REQUEST_URI'])) {
         	$token = $event->getAuthenticationException();
         	$this->detectLogin->enregistreConnexion('FAILED', $this->dateConnexion, $token);
 		}
