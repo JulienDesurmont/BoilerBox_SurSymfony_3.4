@@ -1,7 +1,7 @@
 {# src/Lci/BoilerBoxBundle/Resources/views/Connexion/login.html.twig #}
 {% extends "LciBoilerBoxBundle::secondAccueilLayout.html.twig" %}
 
-{% set maintenance =  false %}
+{% set maintenance =  true %}
 
 {% block title %}{{ parent() }}{% endblock title %}
 
@@ -9,19 +9,19 @@
 
 
 {% block google_map %}
-	{% if maintenance == true %}
+	{% if maintenance == false %}
     	<iframe id='map_google' src="https://www.google.com/maps/d/embed?mid=1y0NIi4DoQQCO4sDyfxOMwqQ052U3X2TB" frameborder="0" width="100%" height="100%"></iframe>
 	{% endif %}
 {% endblock google_map %}
 
 {% block mdp %}
-	{% if maintenance == true %}
+	{% if maintenance == false %}
 		{% if not app.user %}<span style='padding-left:30px; text-decoration:underline;'><a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a></span>{% endif %}
 	{% endif %}
 {% endblock mdp %}
 
 {% block body %}
-{% if maintenance == true %}
+{% if maintenance == false %}
 <div id='pagePrincipaleBody'>
 	 <section>
 	    <div class='boxlogin'>
