@@ -43,17 +43,19 @@
         </form>
     </div>
     <div class='validation_formulaire'>
-        <img class="btn_menu" alt="Créer un utilisateur" onClick="attente(); validFormulaire('createUser');" 
+        <img alt="Créer un utilisateur" 
+			class="btn_menu" 
 			src="{{ asset('bundles/lciboilerbox/images/administration/boutons/btn_creer_utilisateur.png') }}" 
 			onmouseover=this.src="{{ asset('bundles/lciboilerbox/images/administration/boutons/btn_creer_utilisateur_hover.png') }}" 
 			onmouseout=this.src="{{ asset('bundles/lciboilerbox/images/administration/boutons/btn_creer_utilisateur.png') }}" 
+			onClick="attente(); validFormulaire('createUser');"
 		/>
-        <img src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_retour.png') }}" 			       
+        <img alt="Retour"
+			 class="btn_menu"
+			 src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_retour.png') }}" 			       
 			 onmouseover=this.src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_retour_hover.png') }}" 				 
 			 onmouseout=this.src="{{ asset('bundles/lciboilerbox/images/commun/boutons/btn_retour.png') }}" 
 			 onClick="attente(); redirection('retourMenu');" 
-			 class="btn_menu" 
-			 alt="Retour"
 		/>
     </div>
 </div>
@@ -61,9 +63,30 @@
 
 
 <script type='text/javascript'>
-    function validFormulaire(choixAction) {
-		$('#choixAction').val(choixAction);
-		document.forms['myForm'].submit();
+    function validFormulaire($choixAction) {
+		var $utilisateur = $('#choix_utilisateur option:selected').html();
+		if ($choixAction == 'deleteUser') {
+			 $.msgBox({
+                title: "Avertissement",
+                content: "Êtes vous certain de vouloir supprimer l'utilisateur " + $utilisateur + " ?",
+                type: "alert",
+                buttons: [{ value: "Oui" }, { value: "Annuler"}],
+                opacity: 1,
+                success: function (result) {
+                    if (result == "Annuler") {
+						fin_attente();
+                        return false;
+                    }
+                    if (result == "Oui") {
+						$('#choixAction').val($choixAction);
+						document.forms['myForm'].submit();
+                    }
+                }
+            });
+		} else {
+			$('#choixAction').val($choixAction);
+			document.forms['myForm'].submit();
+		}
     }
 
     $(document).ready(function() {
