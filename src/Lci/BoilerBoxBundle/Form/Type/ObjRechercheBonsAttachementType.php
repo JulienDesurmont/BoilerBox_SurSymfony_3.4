@@ -89,9 +89,9 @@ class ObjRechercheBonsAttachementType extends AbstractType {
 			'expanded'		=> true,
 			'multiple'		=> false,
 			'choices'		=> array(
-				null	=> 'Tous type de bons',
-				true 	=> 'Bons saisis',
-				false 	=> 'Bons non saisis'
+                'Tous type de bons' => null,
+                'Bons saisis'    	=> true,
+                'Bons non saisis'   => false
 			),
             'required'    	=> false
 		))
@@ -221,9 +221,9 @@ class ObjRechercheBonsAttachementType extends AbstractType {
 		->add('sensValidation', ChoiceType::class, array(
 			'label'		=> 'Validation',
 			'choices'	=> array(
-				null  => 'Aucune',
-				true  => 'Bons validés',
-				false => 'Bon non validés'
+                'Aucune'  			=> null,
+                'Bons validés'  	=> true,
+                'Bons non validés' 	=> false
 			),
 			'expanded'	=> true,
 			'multiple'	=> false

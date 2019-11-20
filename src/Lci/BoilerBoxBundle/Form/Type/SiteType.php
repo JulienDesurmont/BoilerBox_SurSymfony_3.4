@@ -44,10 +44,10 @@ class SiteType extends AbstractType
 					'multiple'		=> false,
 					'expanded'		=> false,
 					'choices'		=> array(
-							'site'			=> 'Site',
-							'module'		=> 'Module',
-							'live_site' 	=> 'Live de site',
-							'live_module' 	=> 'Live de module'
+                            'Site'          	=> 'site',
+                            'Module'        	=> 'module',
+                            'Live de site'     	=> 'live_site',
+                            'Live de module'   	=> 'live_module'
 					)	
 				))
                 ->add('url', TextType::class, array(
