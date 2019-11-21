@@ -92,30 +92,30 @@
 <script type='text/javascript'>
     $(document).ready(function(){
         /* Mise en place de l'objet datepicker */
-		$("#rechercheBonsAttachement_dateMin" ).datepicker();
-		$("#rechercheBonsAttachement_dateMax" ).datepicker();
-        $("#rechercheBonsAttachement_dateMinInitialisation" ).datepicker();
-        $("#rechercheBonsAttachement_dateMaxInitialisation" ).datepicker();
+		$("#obj_recherche_bons_attachement_dateMin" ).datepicker();
+		$("#obj_recherche_bons_attachement_dateMax" ).datepicker();
+        $("#obj_recherche_bons_attachement_dateMinInitialisation" ).datepicker();
+        $("#obj_recherche_bons_attachement_dateMaxInitialisation" ).datepicker();
 
-        $("#rechercheBonsAttachement_dateMinIntervention" ).datepicker();
-        $("#rechercheBonsAttachement_dateMaxIntervention" ).datepicker();
+        $("#obj_recherche_bons_attachement_dateMinIntervention" ).datepicker();
+        $("#obj_recherche_bons_attachement_dateMaxIntervention" ).datepicker();
 
 
 
-		$('#rechercheBonsAttachement_sensValidation_0').click(function() {
+		$('#obj_recherche_bons_attachement_sensValidation_0').click(function() {
 			selectionValideur(true);
 			$('#checkbox_validation').addClass('invisible');
 		});
-		$('#rechercheBonsAttachement_sensValidation_1').click(function() {
+		$('#obj_recherche_bons_attachement_sensValidation_1').click(function() {
             selectionValideur(true);
 			$('#checkbox_validation').removeClass('invisible');
         });
-		$('#rechercheBonsAttachement_sensValidation_2').click(function() {
+		$('#obj_recherche_bons_attachement_sensValidation_2').click(function() {
 			selectionValideur(false);
 			$('#checkbox_validation').removeClass('invisible');
         });
 
-		$('#rechercheBonsAttachement_sensValidation_0').trigger("click");
+		$('#obj_recherche_bons_attachement_sensValidation_0').trigger("click");
 
     });
 
@@ -123,10 +123,10 @@
 	// Lors de la selection d'un choix bons validés ou bons non validés, on autorise ou pas la selection du valideur
 	function selectionValideur($sens) {
 		if ($sens == false) {
-			$('#rechercheBonsAttachement_valideur').prop('disabled', true);
-			$('#rechercheBonsAttachement_valideur :nth-child(1)').prop('selected', 'selected');
+			$('#obj_recherche_bons_attachement_valideur').prop('disabled', true);
+			$('#obj_recherche_bons_attachement_valideur :nth-child(1)').prop('selected', 'selected');
 		} else {
-			$('#rechercheBonsAttachement_valideur').prop('disabled', false);
+			$('#obj_recherche_bons_attachement_valideur').prop('disabled', false);
 		}
 	}
 </script>
