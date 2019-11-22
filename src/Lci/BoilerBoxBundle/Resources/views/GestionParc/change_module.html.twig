@@ -42,6 +42,8 @@
 
 <script type='text/javascript'>	
 	$(document).ready(function(){
+		$("#module_dateMouvement").datepicker();
+
 		$('#module_actif').click(function() {
 			var $isNotChecked = $('#module_actif').is(':checked');
 			if (! $isNotChecked) {

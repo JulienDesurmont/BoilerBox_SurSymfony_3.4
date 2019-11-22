@@ -213,6 +213,10 @@
 
 
 	$(document).ready(function(){
+		$('#probleme_technique_dateSignalement').datepicker();
+		$('#probleme_technique_dateCorrection').datepicker();
+		$('#probleme_technique_dateCloture').datepicker();	
+
 		/* Vérification de l'état initial des checkbox */
 		if ($('#probleme_technique_corrige').is(':checked')){
             $('.register_date_correctif').removeClass('invisible');
