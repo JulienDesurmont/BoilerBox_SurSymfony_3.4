@@ -22,6 +22,34 @@ protected $service_configuration;
 	}
 
 
+    public function sendMailMultiDestinataires($sujet, $titre, $tab_contenu, $tab_destinataires) {
+		$liste_destinataires = "";
+		foreach($tab_destinataires as $destinataire) {
+			$liste_destinataires .= $destinataire.',';
+		}
+
+		$liste_destinataires = substr($liste_destinataires, 0, -1);
+		$message = \Swift_Message::newInstance()
+            ->setSubject($sujet)
+            ->setFrom('Assistance_IBC@lci-group.fr')
+            ->setTo($tab_destinataires);
+
+        $image_link = $message->embed(\Swift_Image::fromPath($this->logo));
+        $message->setBody($this->templating->render('LciBoilerBoxBundle:Mail:email_bons.html.twig', array('titre' => $titre, 'tab_contenu' => $tab_contenu, 'image_link' => $image_link)));
+        $message->setContentType('text/html');
+        $nb_delivery = $this->mailer->send($message);
+        if ($nb_delivery == 0) {
+            $this->log->setLog("[ERROR] [MAIL];Echec de l'envoi de l'email : [Dévalidation de Bons] à $liste_destinataires", $this->fichier_log);
+            return(1);
+        } else {
+            $this->log->setLog("[MAIL];Mail de dévalidation envoyé à $liste_destinataires", $this->fichier_log);
+            return(0);
+        }
+    }
+
+
+
+
 	public function sendProblemeTechniqueMail($sender, $destinataire, $message_probleme_technique) {
 		$message = \Swift_Message::newInstance()
 			->setSubject('Affectation de problème technique')

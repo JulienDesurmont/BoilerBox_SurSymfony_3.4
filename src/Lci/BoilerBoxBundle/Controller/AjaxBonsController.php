@@ -26,33 +26,41 @@ public function setEnqueteAction() {
 
 // Fonction qui effectue la validation ou la suppression d'une ancienne validation d'une catégorie d'un bon
 public function setValidationAction() {
-    $idBon = $_POST['identifiant'];
-	$type = $_POST['type'];
-	$sens = $_POST['sens'];
-
 	$em = $this->getDoctrine()->getManager();
+
+    $idBon = $_POST['identifiant'];
+    $type = $_POST['type'];
+    $sens = $_POST['sens'];
+	
 
 	$entity_bon = $em->getRepository('LciBoilerBoxBundle:BonsAttachement')->find($idBon);
 	$user = $this->get('security.token_storage')->getToken()->getUser();
 
 	// Si le sens est false c'est que la checkbox est décochée : On définit le champs valide à 0 pour signifier que l'entité Validation est une Dé-Validation
+	// Ajout du 02/12/2019 : Lors d'une dévalidation on informe l'ensemble des valideurs par mail.
 	if ($sens == 'false') {
 		switch ($type) {
 			case 'technique':
 				$entity_validation = $this->devalidation($entity_bon->getValidationTechnique(), $user);
+				$entities_users_validation = $em->getRepository('LciBoilerBoxBundle:User')->myfindByRole('ROLE_SERVICE_TECHNIQUE');
 				break;
         	case 'sav':
 				$entity_validation = $this->devalidation($entity_bon->getValidationSAV(), $user);
+				$entities_users_validation = $em->getRepository('LciBoilerBoxBundle:User')->myfindByRole('ROLE_SERVICE_SAV');
             	break;
         	case 'horaire':
 				$entity_validation = $this->devalidation($entity_bon->getValidationHoraire(), $user);
+				$entities_users_validation = $em->getRepository('LciBoilerBoxBundle:User')->myfindByRole('ROLE_SERVICE_HORAIRE');
         	    break;
         	case 'facturation':
 				$entity_validation = $this->devalidation($entity_bon->getValidationFacturation(), $user);
+				$entities_users_validation = $em->getRepository('LciBoilerBoxBundle:User')->myfindByRole('ROLE_SERVICE_FACTURATION');
         	    break;
         	default:
         	    break;
 		}
+		// Envoi du mail à l'ensemble du groupe de dévalidation
+		$this->sendMailDevalidation($type, $entity_bon, $entities_users_validation, $user);
 	} else {
 		$entity_validation = new Validation();
 		$entity_validation->setValide(true);
@@ -172,5 +180,33 @@ private function putZoomApi($url) {
 }
 
 
+private function sendMailDevalidation($type, $entity_bon, $entities_users, $entity_devalideur) {
+	$sujet = 'Dévalidation '.$type;
+	$titre = 'Dévalidation '.$type." pour l'affaire ".$entity_bon->getNumeroAffaire();
+	
+    $tab_destinataires = [];
+    foreach ($entities_users as $entity_user) {
+            $tab_destinataires[] = $entity_user->getEmail();
+    }
+
+    $service_mail = $this->get('lci_boilerbox.mailing');
+
+    $tab_contenu = array();
+	$tab_contenu[] = '%PLe '.date('d-m-Y à H\hi');
+	$tab_contenu[] = ':%P';	
+	$tab_contenu[] = '%PUne dévalidation ';
+	$tab_contenu[] = '%G'.$type.' ';
+	$tab_contenu[] = " a été effectuée sur le bon d'attachement de numéro ".$entity_bon->getNumeroBA(). ' par '.$entity_devalideur->getUsername();
+	$tab_contenu[] = '%M ('.$entity_devalideur->getEmail().')';
+	$tab_contenu[] = '.%P';
+    $tab_contenu[] = "<br /><br /><br />";
+    $tab_contenu[] = "Cordialement.<br /><br />";
+    $tab_contenu[] = "Assistance BoilerBox.<br />";
+	$tab_contenu[] = "%MAssistance_IBC@lci-group.fr";
+    $tab_contenu[] = "<br /><br /><br />";
+
+    $service_mail->sendMailMultiDestinataires($sujet, $titre, $tab_contenu, $tab_destinataires);
+    return 0;
+}
 
 }

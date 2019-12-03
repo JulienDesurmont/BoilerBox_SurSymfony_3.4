@@ -26,12 +26,13 @@ class UserRepository extends EntityRepository {
         return $query;
     }
 
-	// Retourne la liste des utilisateur aynat le rêle définit
+	// Retourne la liste des utilisateur ayant le rêle définit
 	public function myfindByRole($role) {
 		$qb = $this->_em->createQueryBuilder()
 			->select('u')
 			->from($this->_entityName, 'u')
 			->where('u.roles LIKE :role')
+			->andWhere('u.enabled = 1')
 			->setParameter('role', '%"'.$role.'"%');
 		return $qb->getQuery()->getResult();
 	
