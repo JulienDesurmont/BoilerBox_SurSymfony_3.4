@@ -54,6 +54,7 @@ registration:
             Bonjour %username% !
 
             Pour valider votre compte utilisateur sur boilerbox.fr , merci de vous rendre sur %confirmationUrl%
+            Votre mot de passe d'origine est identique à votre login ( %username% ). Il peut être changé depuis la page d'accueil de BoilerBox.
 
             Cordialement,
             Assistance BoilerBox.
