@@ -61,43 +61,58 @@
 </div>
 </div>
 
-
-<script type='text/javascript'>
-    function validFormulaire($choixAction) {
-		var $utilisateur = $('#choix_utilisateur option:selected').html();
-		if ($choixAction == 'deleteUser') {
-			 $.msgBox({
-                title: "Avertissement",
-                content: "Êtes vous certain de vouloir supprimer l'utilisateur " + $utilisateur + " ?",
-                type: "alert",
-                buttons: [{ value: "Oui" }, { value: "Annuler"}],
-                opacity: 1,
-                success: function (result) {
-                    if (result == "Annuler") {
-						fin_attente();
-                        return false;
-                    }
-                    if (result == "Oui") {
-						$('#choixAction').val($choixAction);
-						document.forms['myForm'].submit();
-                    }
-                }
-            });
-		} else {
-			$('#choixAction').val($choixAction);
-			document.forms['myForm'].submit();
-		}
-    }
-
-    $(document).ready(function() {
-        // Mise en place du focus sur la liste déroulante
-        document.getElementById('choix_utilisateur').focus();
-        $(document).keypress(function(e){
-            if(e.keyCode == 8){
-                // Bouton RETOUR
-                annuleFormulaire();
-            }
-        });
-    });
-</script>
 {% endblock fos_user_content %}
+
+{% block javascript %}
+	{{ parent() }}
+
+	<script type='text/javascript'>
+
+		/* Exemple de MSGBOX
+		$.msgBox({
+		title: "Ooops",
+		content: "Ohh dear! You broke it!!!",
+		type: "error",
+		buttons: [{ value: "Ok" }],
+		afterShow: function (result) { alert("Message has been shown!"); }
+		});
+		*/
+    	
+		function validFormulaire($choixAction) {
+        	var $utilisateur = $('#choix_utilisateur option:selected').html();
+        	if ($choixAction == 'deleteUser') {
+             	$.msgBox({
+                	title: "Avertissement",
+                	content: "Êtes vous certain de vouloir supprimer l'utilisateur " + $utilisateur + " ?",
+                	type: "alert",
+                	buttons: [{ value: "Oui" }, { value: "Annuler"}],
+                	opacity: 1,
+                	success: function (result) {
+                	    if (result == "Annuler") {
+                	        fin_attente();
+                	        return false;
+                	    }
+                	    if (result == "Oui") {
+                	        $('#choixAction').val($choixAction);
+                	        document.forms['myForm'].submit();
+                	    }
+                	}
+            	});
+        	} else {
+        	    $('#choixAction').val($choixAction);
+        	    document.forms['myForm'].submit();
+        	}
+    	}
+
+    	$(document).ready(function() {
+    	    // Mise en place du focus sur la liste déroulante
+    	    document.getElementById('choix_utilisateur').focus();
+    	    $(document).keypress(function(e){
+    	        if(e.keyCode == 8){
+    	            // Bouton RETOUR
+    	            annuleFormulaire();
+    	        }
+    	    });
+    	});
+	</script>
+{% endblock javascript %}

@@ -3,7 +3,7 @@
 
 {% block liens_css %}
 {{ parent() }}
-<link rel="stylesheet" type="text/css" href="{{ asset('css/lightbox.css') }}" media='screen' />
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/lciboilerbox/css/lightbox.css') }}" media='screen' />
 {% endblock liens_css %}
 
 {% block liens_url %}
@@ -36,5 +36,5 @@
 
 {% block javascript %}
 	{{ parent() }}
-	<script type="text/javascript" src="{{ asset('js/lightbox.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/lciboilerbox/js/lightbox.min.js') }}"></script>
 {% endblock javascript %}

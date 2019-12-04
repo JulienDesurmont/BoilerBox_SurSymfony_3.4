@@ -7,18 +7,25 @@
     <meta name="description" content="L'interface de supervision des chaudières industrielles." />
     <meta name="title" content="BoilerBox - Accueil" />
 
+
     {% block liens_css %}
-		<link rel="stylesheet" type="text/css" href="{{ asset('css/parc.css') }}" media='screen' />
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/parc_print.css') }}" media='print' />
-		<link rel="stylesheet" type="text/css"  href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css"/>
-		<link rel="stylesheet" type="text/css" href="{{ asset('css/msgBoxLight.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lciboilerbox/css/parc.css') }}" media='screen' />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lciboilerbox/css/parc_print.css') }}" media='print' />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lciboilerbox/css/jquery-ui-1.12.1.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/lciboilerbox/css/msgBoxLight.css') }}" />
     {% endblock liens_css %}
 
-    {#
-	<script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
-	#}
-	<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery-dateFormat.min.js') }}"></script>
+
+    {# JAVASCRIPT ********************************** avec gestion Assetic ****************************************  #}
+    {% javascripts output='js/jquery_compil.js'
+        'bundles/lciboilerbox/js/jquery.js'
+        'bundles/lciboilerbox/js/jquery-dateFormat.min.js'
+        'bundles/lciboilerbox/js/jquery-ui-1.12.1.min.js'
+        'bundles/lciboilerbox/js/jquery.ui.datepicker-fr.js'
+        'bundles/lciboilerbox/js/jquery.msgBox.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 </head>
 
 <body>
@@ -105,9 +112,11 @@
 {% include "boilerbox/boilerbox.js" %}
 
 
+{#
 <script type="text/javascript" src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="{{ asset('js/jquery.ui.datepicker-fr.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/jquery.msgBox.js') }}"></script>
+#}
 
 {% block javascript %}
 {% endblock javascript %}
