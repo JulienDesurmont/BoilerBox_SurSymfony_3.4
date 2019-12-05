@@ -17,7 +17,7 @@ protected $service_configuration;
 		$this->templating = $templating;
 		$this->mail_administrateur = $mail_administrateur;
 		$this->log = $loging;
-		$this->logo = __DIR__.'/../../../../web/images/logo_lci.jpg';
+		$this->logo = __DIR__.'/../../../../web/bundles/lciboilerbox/images/logo_lci.jpg';
 		$this->service_configuration = $service_configuration;
 	}
 
@@ -104,7 +104,7 @@ protected $service_configuration;
 		$message = \Swift_Message::newInstance()->setSubject($sujet)
 												->setFrom($emetteur)
 												->setTo($destinataire);
-		$chemin_image = __DIR__.'/../../../../web/images/logo_lci.jpg';
+		$chemin_image = __DIR__.'/../../../../web/bundles/lciboilerbox/images/logo_lci.jpg';
 		$image_link = $message->embed(\Swift_Image::fromPath($this->logo));
 		/*
 		$message->setBody('test');
