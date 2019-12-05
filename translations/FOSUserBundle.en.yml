@@ -51,14 +51,13 @@ registration:
     email:
         subject: Bienvenue %username% !
         message: |
-            Bonjour %username% !
+            Bonjour <b>%username%</b> !<br /><br />
 
-            Pour valider votre compte utilisateur sur boilerbox.fr , merci de vous rendre sur %confirmationUrl%
-            Votre mot de passe d'origine est identique à votre login ( %username% ). Il peut être changé depuis la page d'accueil de BoilerBox.
+            Pour valider votre compte utilisateur sur boilerbox.fr , merci de vous rendre sur %confirmationUrl%<br /><br />
+            Votre mot de passe d'origine est identique à votre login ( %username% ). Il peut être changé depuis la page d'accueil de BoilerBox.<br /><br />
 
-            Cordialement,
-            Assistance BoilerBox.
-
+            Cordialement,<br />
+            Assistance Boiler-Box.
 # Password resetting
 resetting:
     password_already_requested: Un nouveau mot de passe a déjà été demandé pour cet utilisateur dans les dernières 6 heures.

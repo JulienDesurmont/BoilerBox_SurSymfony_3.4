@@ -12,7 +12,7 @@ parameters:
     mailer_host: smtpcorp.com
     mailer_delivery: Assistance_IBC@lci-group.fr
     mailer_disable: false
-    mailer_sender: adminIpc@cargo-france.fr
+    mailer_sender: Assistance_IBC@lci-group.fr
     mailer_auth: login
     mailer_port: 2525
     locale: fr

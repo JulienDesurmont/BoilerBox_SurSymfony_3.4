@@ -83,9 +83,9 @@ fos_user:
             enabled: true
             from_email: 
                 # Expediteur
-                address: 'admin_ipc@cargo-france.fr'
+                address: 'Assistance_IBC@lci-group.fr'
                 # Nom de l'expediteur
-                sender_name: 'Administrateur BoilerBox'
+                sender_name: 'Boiler-Box'
             template: '@FOSUser/Registration/email.txt.twig'
     resetting:
         email: 
@@ -100,7 +100,9 @@ fos_user:
             type: 'Lci\BoilerBoxBundle\Form\Type\ChangePasswordFormType'
     from_email:
         address: "Assistance@lci-group.fr"
-        sender_name: "Administrateur BoilerBox"
+        sender_name: "Boiler-Box"
+    service: 
+        mailer: fos_user.mailer.twig_swift
 
 sensio_framework_extra:
    router:

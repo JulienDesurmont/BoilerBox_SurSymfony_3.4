@@ -24,11 +24,11 @@
 			<div class='boxlogin'>
 				<!--Logo-IBC-->
 				<div id='logo-IBC'>
-				    <img class="img" src="{{ asset('images/Layout-IPC_2014-11-05_03.png') }}" alt="ipcLogo" />
+				    <img class="img" src="{{ asset('bundles/lciboilerbox/images/Layout-IPC_2014-11-05_03.png') }}" alt="ipcLogo" />
 				    <div class="txt"><span>I</span>NDUSTRIAL<br /><span>B</span>OILER<br /><span>C</span>ONTROL</div>	
 				</div>
 				<div class='enTeteLogin'>
-					<div class='icone'><div class='logoChaudiere'><img class='img' src="{{ asset('images/chaudiere.png') }}" alt='chaudiereLogo' /></div></div>
+					<div class='icone'><div class='logoChaudiere'><img class='img' src="{{ asset('bundles/lciboilerbox/images/chaudiere.png') }}" alt='chaudiereLogo' /></div></div>
 					<div class='optionAffaire'>	
 						<input type='radio' name='radLive' onClick='switchSite();' value='affaire' checked>Affaire
 						<input type='radio' name='radLive' onClick='switchSite();' value='module'>Module
@@ -147,18 +147,18 @@
                                     {# ******************************************************************************* #}
 
                                     <option value="{{ site.url }}" data-identifiant-site="{{ site.id }}"
-                                        {% if not site.accesDistant %}
-                                            disabled class="feuTricolor_4"
-                                        {% else %}
-                                            {% if site.configBoilerBox %}
-                                                class="feuTricolor_{{ site.getDisponibilite }}"
-                                            {% else %}
-                                                disabled class="feuTricolor_3"
-                                            {% endif %}
-                                        {% endif %}
-                                    >
-                                        {{ affaire | raw }} ( {{ connexion | raw }} )&emsp;{{ site.intitule }}
-                                    </option>
+									{% if not site.accesDistant %}
+										disabled class="feuTricolor_4"
+									{% else %}
+										{% if site.configBoilerBox %}
+											class="feuTricolor_{{ site.getDisponibilite }}"
+										{% else %}
+											disabled class="feuTricolor_3"
+										{% endif %}
+									{% endif %}
+									>
+										{{ affaire | raw }} ( {{ connexion | raw }} )&emsp;{{ site.intitule }}
+									</option>
                                 {% endif %}
                             {% endfor %}
                         </select>

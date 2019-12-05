@@ -19,7 +19,7 @@
 	    <div class='boxlogin'>
 			<!--Logo-IBC-->
 			<div id='logo-IBC'>
-			    <img class="img" src="{{ asset('images/Layout-IPC_2014-11-05_03.png') }}" alt="lciLogo" />
+			    <img class="img" src="{{ asset('bundles/lciboilerbox/images/Layout-IPC_2014-11-05_03.png') }}" alt="lciLogo" />
 			    <div class="txt"><span>I</span>NDUSTRIAL<br /><span>B</span>OILER<br /><span>C</span>ONTROL</div>	
 			</div>
 			<div class="icone"><div class="logoChaudiere"></div></div>
