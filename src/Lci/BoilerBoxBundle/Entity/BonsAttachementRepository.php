@@ -203,7 +203,13 @@ class BonsAttachementRepository extends EntityRepository
 			}
         }
 
+		// Si une condition sur le nom du contact est demandée. **************************************************
+		if ($entity_objRechercheBon->getNomDuContact()) {
+			$queryBuilder	->andWhere($queryBuilder->expr()->like('b.nomDuContact', ':nomDuContact'))
+                            ->setParameter('nomDuContact', '%'.$entity_objRechercheBon->getNomDuContact().'%');
+		}
 
+		// Si une condition sur les dates est demandée ***********************************************************************
         if ($entity_objRechercheBon->getDateMax()) {
             $queryBuilder   ->andWhere($queryBuilder->expr()->between('b.dateSignature', ':dateMin', ':dateMax'))
                             ->setParameter('dateMin', $this->convertirDate($entity_objRechercheBon->getDateMin()))
