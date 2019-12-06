@@ -54,6 +54,11 @@ class BonsAttachementRepository extends EntityRepository
         }
 
 
+        if ($entity_objRechercheBon->getNumeroBA()) {
+            $queryBuilder   ->andWhere($queryBuilder->expr()->eq('b.numeroBA', ':numeroBA'))
+                            ->setParameter('numeroBA', $entity_objRechercheBon->getNumeroBA());
+        }
+
         if ($entity_objRechercheBon->getNumeroAffaire()) {
             $queryBuilder   ->andWhere($queryBuilder->expr()->eq('b.numeroAffaire', ':numeroAffaire'))
                             ->setParameter('numeroAffaire', $entity_objRechercheBon->getNumeroAffaire());

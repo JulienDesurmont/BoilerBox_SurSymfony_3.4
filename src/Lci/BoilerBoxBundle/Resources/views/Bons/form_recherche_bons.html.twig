@@ -19,6 +19,9 @@
 		<div class='formulaire taille_texte_moyen' >
         	{{ form_start(form, {'action':path('lci_bons_rechercher'), 'method':'POST', 'name':'myForm'}) }}
         	{{ form_errors(form) }}
+				<div class='ligne_error'>{{ form_errors(form.numeroBA) }}</div>
+                <div class='nouveau_probleme_ligne'><div>{{ form_label(form.numeroBA) }}</div><div>{{ form_widget(form.numeroBA) }}</div></div>
+
                 <div class='ligne_error'>{{ form_errors(form.saisie) }}</div>
                 <div class='nouveau_probleme_ligne' ><div>{{ form_label(form.saisie) }}</div><div>{{ form_widget(form.saisie) }}</div></div>
 

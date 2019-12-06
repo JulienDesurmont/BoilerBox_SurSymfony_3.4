@@ -13,6 +13,15 @@ class ObjRechercheBonsAttachement {
 	/**
 	 * @var string
 	 *
+	 * @Assert\Type("string")
+	 * @Assert\Length(min=6, max=6, exactMessage= "Le numéro doit contenir 6 chiffres")
+	 * @Assert\Regex("/^\d{6}$/", message="Format incorrect. 6 chiffres attendus")
+	*/
+	protected $numeroBA;
+
+	/**
+	 * @var string
+	 *
      * @Assert\Type("string")
      * @Assert\Length(min=4, max=7, minMessage="Format incorrect. Nombre de caractères minimum = 4", maxMessage="Format incorrect. Nombre de caractères maximum = 7")
      * 
@@ -184,6 +193,33 @@ class ObjRechercheBonsAttachement {
     {
         return $this->numeroAffaire;
     }
+
+
+
+
+    /**
+     * Set numeroBA
+     *
+     * @param string $numeroBA
+     * @return ObjRechercheBonsAttachement
+    */
+    public function setNumeroBA($numeroBA)
+    {
+        $this->numeroBA = strtoupper($numeroBA);
+
+        return $this;
+    }
+
+    /**
+     * Get numeroBA
+     *
+     * @return string
+    */
+    public function getNumeroBA()
+    {
+        return $this->numeroBA;
+    }
+
 
 
     /**

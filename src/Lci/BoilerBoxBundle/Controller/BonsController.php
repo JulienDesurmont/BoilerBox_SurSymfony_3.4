@@ -509,7 +509,7 @@ public function rechercherAction(Request $request) {
                		$entity_bon_recherche->setValidationFacturation(true);
 				}
 			}
-			
+
             // Sauvegarde de l'objet recherche de bon d'attachement pour réaffichage des données lors de la prochaine requête
             $session->set('objRechercheBon', $entity_bon_recherche);
 

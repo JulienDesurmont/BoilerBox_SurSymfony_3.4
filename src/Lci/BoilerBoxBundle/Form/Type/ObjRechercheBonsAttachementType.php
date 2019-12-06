@@ -61,6 +61,16 @@ class ObjRechercheBonsAttachementType extends AbstractType {
 				'maxlength'   => 7
             ),
         ))
+        ->add('numeroBA', TextType::class, array(
+            'label'      => 'Numéro de bon',
+            'label_attr' => array('class' => 'label_smalltext'),
+            'trim'       => true,
+            'attr'       => array(
+                'class'       => 'biginput upper centrer',
+                'placeholder' => 'XXXXXX',
+                'maxlength'   => 6
+            ),
+        ))
        ->add('site', EntityType::class, array(
             'class'         => SiteBA::class,
 			'label' 		=> 'Nom du site',
