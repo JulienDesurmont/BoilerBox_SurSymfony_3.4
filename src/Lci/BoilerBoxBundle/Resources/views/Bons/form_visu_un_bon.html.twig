@@ -633,7 +633,7 @@
     function definirNomFichier($idLien, $nomDuFichier)
     {
         var $regex = /\([a-zA-Z0-9à:\/\s]+\)$/;
-        $('#' + $idLien).attr('download', $nomDuFichier.replace($regex, ''));
+        $('#' + $idLien).attr('download', $.trim($nomDuFichier.replace($regex, '')));
     }
 
 </script>
