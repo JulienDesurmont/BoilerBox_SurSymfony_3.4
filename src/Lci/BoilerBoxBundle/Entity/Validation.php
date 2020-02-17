@@ -55,7 +55,7 @@ class Validation {
      * Un utilisateur valide le bon
      *
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="validations", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="validations", cascade={"persist", "remove"})
      * @ORM\OrderBy({"label" = "ASC"})
     */
     protected $user;
