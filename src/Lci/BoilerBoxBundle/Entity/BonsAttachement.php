@@ -57,7 +57,7 @@ class BonsAttachement {
     /**
      * Plusieurs bons d'attachements peuvent être crées par un même initiateur
      *
-     * @ORM\ManyToOne(targetEntity="User", cascade={"persist"}, inversedBy="bonsAttachementInitiateur")
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"}, inversedBy="bonsAttachementInitiateur")
      * @ORM\OrderBy({"label" = "ASC"})
     */
     protected $userInitiateur;
