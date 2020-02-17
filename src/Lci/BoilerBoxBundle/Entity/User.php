@@ -83,7 +83,7 @@ class User extends BaseUser
 	/**
 	 * Un utilisateur peut valider plusieurs bons
 	 *
-	 * @ORM\OneToMany(targetEntity="Validation", mappedBy="user")
+	 * @ORM\OneToMany(targetEntity="Validation", mappedBy="user", cascade={"remove"})
 	*/
 	protected $validations;
 

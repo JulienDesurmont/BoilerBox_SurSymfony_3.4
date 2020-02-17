@@ -40,7 +40,7 @@ class ProblemeTechnique
 
     /**
      * Many problems can reference one user
-     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"}, inversedBy="problemeTechnique")
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist"}, inversedBy="problemeTechnique")
     */
     protected $user;
 
