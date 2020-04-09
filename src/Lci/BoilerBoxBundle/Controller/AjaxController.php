@@ -23,6 +23,12 @@ public function getUserLogAction(Session $session) {
     if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
         $password = $this->container->get('doctrine')->getManager()->getRepository('LciBoilerBoxBundle:Zoneadmin')->findOneBy(array('login' => 'Admin'))->getPassword();
         echo "Admin;$password";
+    } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN_LTS')) {
+        $password = $this->container->get('doctrine')->getManager()->getRepository('LciBoilerBoxBundle:Zoneadmin')->findOneBy(array('login' => 'AdminLTS'))->getPassword();
+        echo "AdminLTS;$password";
+    } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_TECHNICIEN_LTS')) {
+        $password = $this->container->get('doctrine')->getManager()->getRepository('LciBoilerBoxBundle:Zoneadmin')->findOneBy(array('login' => 'TechnicienLTS'))->getPassword();
+        echo "TechnicienLTS;$password";
     } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_TECHNICIEN')) {
         $password = $this->container->get('doctrine')->getManager()->getRepository('LciBoilerBoxBundle:Zoneadmin')->findOneBy(array('login' => 'Technicien'))->getPassword();
         echo "Technicien;$password";
