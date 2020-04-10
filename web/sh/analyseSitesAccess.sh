@@ -1,10 +1,31 @@
 #!/bin/sh
 
 # Importation des fichiers Binaires
-flagAnalyseAccess='/tmp/.flagBoilerBoxAnalyseAccess'
-boilerDir='/var/www/html/BoilerBox.fr/BoilerBox/'
+flagAnalyseAccess='/tmp/.flagBoilerBoxAnalyseSitesAccess'
+boilerDir='/var/www/html/BoilerBox.fr/BoilerBox'
 consoleDir=$boilerDir'/bin/console'
 cacheDir=$boilerDir'/var/cache'
+cheminPHP='/usr/bin/php'
+
+# -------------- DEV ----------------------------------
+#PARAMETRES boilerbox_prod_2.7
+#boilerDir='/var/www/html/BoilerBox.fr/BoilerBox_Prod_2.7'
+
+#PARAMETRES boilerbox-LTS
+#flagAnalyseAccess='/tmp/.flagLTSBoilerBoxAnalyseSitesAccess'
+#boilerDir='/var/www/html/BoilerBox.fr/BoilerBox-LTS
+
+
+# -------------- PROD ----------------------------------
+#PARAMETRES boilerbox.fr
+#boilerDir='/var/www/vhosts/boiler-box.fr/httpdocs/BoilerBox'
+#cheminPHP='/opt/plesk/php/7.1/bin/php'
+
+#PARAMETRES boilerbox_LTS
+#flagAnalyseAccess='/tmp/.flagLTSBoilerBoxAnalyseSitesAccess'
+#boilerDir='/var/www/vhosts/boiler-box.fr/boiler-box-lts.fr'
+#cheminPHP='/opt/plesk/php/7.1/bin/php'
+
 
 
 # Vérification qu'un flag d'importation de fichiers binaires n'existe pas
@@ -22,7 +43,7 @@ else
     # Création du flag
     touch "$flagAnalyseAccess"
     # Appel de la commande qui importe en base la liste des fichiers présents dans le dossier fichiers_binaires
-    retour=`nice -0 php $consoleDir boilerbox:utils`
+    retour=`nice -0 $cheminPHP $consoleDir boilerbox:utils`
     # Libération du flag
     rm "$flagAnalyseAccess"
 fi
