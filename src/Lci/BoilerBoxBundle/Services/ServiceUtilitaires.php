@@ -24,7 +24,7 @@ class ServiceUtilitaires {
 	// Fonction créée également dans un Controller - UtilsController.php : function validChoiceAction() - A modifier aussi en cas de modification de cette fonction
 	// Utilitaire NETCAT : Analyse la liste des sites avec un indicateur indiquant la réussite ou l'échec du test.
 	// N'analyse que les sites accessibles ( paramètre configBoilerBox = true)
-	public function analyseAccess() {
+	public function analyseAccess($sitesOuModules) {
 		// Mise à jour de la valeur du paramètre : date du dernier test de disponibilité des sites.
 		$date_du_jour = new \Datetime();
 		$entity_configuration = $this->service_configuration->getEntiteDeConfiguration('date_test_de_disponibilite', $date_du_jour->format('d-m-Y H:i:s'));
@@ -37,24 +37,45 @@ class ServiceUtilitaires {
 		// Pour chaque site : Récupération de l'adresse ip et test de l'accessibilité sur cette adresse
 		$tab_sites = array();
 		foreach ($tab_entities_site as $entity_site) {
-				// Le test du ping (netcat) n'est effectué que pour les sites accessibles (paramètres accesDistant = true && configBoilerbox ) true)
-				if ( ($entity_site->getAccesDistant() == true) && ($entity_site->getConfigBoilerBox() == true) ) {
-					$dateAccess = new \Datetime();
-					$entity_site->setDateAccess($dateAccess);
-
-					$tab_param_url = $this->recuperationSiteUrl($entity_site->getUrl());
-					$commande_adresse_ip_site = "host -t A ".$tab_param_url['url']." ".$this->dnsServer." | grep 'has address' | awk -F' ' '{print $4}'";
-	            	$adresse_ip_site = exec($commande_adresse_ip_site, $tab_adresse_ip, $retour_commande);
-		        	if ($adresse_ip_site != '') {
-						$commande_netcat = "nc -v -n -z -w $this->delais_netcat $adresse_ip_site ".$tab_param_url['port'];
-		    		    $last_command_lign = exec($commande_netcat, $tab_netcat, $retour_commande_netcat);
-	 	    		    // Interprétation de la réponse et modification de l'entité site passée en paramètre
-						$this->interpretation_netcat($entity_site, $retour_commande_netcat);
-		        	} else { 
-	            	    // Inscription de la date du test dans l'entité site
-	            	    $this->em->flush();
+			$continu = false;
+			switch ($sitesOuModules) {
+				case 'sites':
+					if ($entity_site->getTypeSite() == 'module') {
+						$continu = true;
 					}
+					break;
+				case 'modules':
+					if ($entity_site->getTypeSite() == 'site') {
+						$continu = true;
+                    }
+					break;
+			}
+			// Pas d'analyse pour les urls des sites lives
+			if (($entity_site->getTypeSite() == 'live_site') || ($entity_site->getTypeSite() == 'live_module')) {
+					$continu = true;
+			}
+			if ($continu === true) {
+				continue;
+			}
+				
+			// Le test du ping (netcat) n'est effectué que pour les sites accessibles (paramètres accesDistant = true && configBoilerbox ) true)
+			if ( ($entity_site->getAccesDistant() == true) && ($entity_site->getConfigBoilerBox() == true) ) {
+				$dateAccess = new \Datetime();
+				$entity_site->setDateAccess($dateAccess);
+				// Retourne l'url du site 
+				$tab_param_url = $this->recuperationSiteUrl($entity_site->getUrl());
+				$commande_adresse_ip_site = "host -t A ".$tab_param_url['url']." ".$this->dnsServer." | grep 'has address' | awk -F' ' '{print $4}'";
+	           	$adresse_ip_site = exec($commande_adresse_ip_site, $tab_adresse_ip, $retour_commande);
+		       	if ($adresse_ip_site != '') {
+					$commande_netcat = "nc -v -n -z -w $this->delais_netcat $adresse_ip_site ".$tab_param_url['port'];
+		   		    $last_command_lign = exec($commande_netcat, $tab_netcat, $retour_commande_netcat);
+	 	   		    // Interprétation de la réponse et modification de l'entité site passée en paramètre
+					$this->interpretation_netcat($entity_site, $retour_commande_netcat, $dateAccess);
+		       	} else { 
+	           	    // Inscription de la date du test dans l'entité site
+	           	    $this->em->flush();
 				}
+			}
 		}
 		// Retour de la liste des entités [ site ]
 		return(0);
@@ -79,7 +100,7 @@ class ServiceUtilitaires {
 
 
 	// Définie la date de tentative de connexion - la disponibilité du site et de son site Live en fonction du retour de la commande Netcat - La date de réussite de la commande Netcat
-	private function interpretation_netcat($entitySite, $retour_commande_netcat) {
+	private function interpretation_netcat($entitySite, $retour_commande_netcat, $dateAccess) {
 	    // Inscription de la date du test dans l'entité site
 	    $site_Live = $entitySite->getAffaire().'L';
 	    $entityLive = $this->em->getRepository('LciBoilerBoxBundle:Site')->findOneByAffaire($site_Live);
@@ -94,7 +115,9 @@ class ServiceUtilitaires {
 	    } else {
 			// Si le ping n'est pas ok : On met le paramètre Disponibilité à 2
 			$entitySite->setDisponibilite(2);
-	        if($entityLive != null) { $entityLive->setDisponibilite(2); }
+	        if($entityLive != null) { 
+				$entityLive->setDisponibilite(2); 
+			}
 	    }
 		$this->em->flush();
 	    return(0);

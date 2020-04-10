@@ -6,6 +6,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use Lci\BoilerBoxBundle\Entity\CommentairesSite;
+use Lci\BoilerBoxBundle\Entity\FichierV2;
+use Symfony\Component\HttpFoundation\Request;
 
 class AjaxController extends Controller {
 
@@ -54,6 +57,23 @@ public function getUserSitesAction() {
     return new Response();
 }
 
+
+
+
+//Fonction qui retourne une entité selon son id
+public function getCommentairesSiteAction() {
+    $id_site = $_POST['idSite'];
+    $site = $this->getDoctrine()->getManager()->getRepository('LciBoilerBoxBundle:Site')->find($id_site);
+    foreach($site->getCommentaires() as $comm) {
+        echo json_encode($comm);
+    }
+    return new Response();
+}
+
+
+
+
+
 // Fonction qui retourne la liste des utilisateurs ayant accés à un site
 // L'identifiant du site est passé en paramètre de l'appel AJAX
 public function getSiteUsersAction() {
@@ -68,6 +88,7 @@ public function getSiteUsersAction() {
     echo json_encode($tab_entity_users);
     return new Response();
 }
+
 
 public function sendEmailRappelProblemeTechniqueAction() {
 	return $this->redirect($this->generateUrl('lci_mail_probleme_rappel'));
@@ -140,7 +161,7 @@ public function refreshASiteStatutAction() {
 				$tab_details[$entity_site->getId()]['detail'] = "<p>Fail : $commande_netcat</p><span class='nok'>".$entity_site->getIntitule()." : Injoignable sur le port ".$tab_param_url['port']."</span>";
 				$entity_site->setDisponibilite(2);
         	}
-            $this->interpretation_netcat($entity_site, $retour_commande_netcat);
+            $this->interpretation_netcat($entity_site, $retour_commande_netcat, $dateAccess);
         } else {
 			// Inaccessible car l'adresse ip n'est pas trouvée
 			$entity_site->setDisponibilite(4);
@@ -187,9 +208,7 @@ private function recuperationSiteUrl($url) {
     return($tab_param_url);
 }
 
-private function interpretation_netcat($entitySite, $retour_commande_netcat) {
-    //  Inscription de la date du test dans l'entité site
-    $dateAccess = new \Datetime();
+private function interpretation_netcat($entitySite, $retour_commande_netcat, $dateAccess) {
     // **** Pour inclure l'acces LIVE : $site_Live = $entitySite->getAffaire().'L';
     // **** Pour inclure l'acces LIVE : $entityLive = $this->container->get('doctrine')->getManager()->getRepository('LciBoilerBoxBundle:Site')->findOneByAffaire($site_Live);
     if ($retour_commande_netcat == 0) {
@@ -222,5 +241,90 @@ public function desactivationAuthAction(Session $session) {
 }
 
 
+/* Fonction qui ajoute, modifie ou supprime un commentaire de site */
+public function setCommentairesSiteAction() {
+	$action = 'creer';
+	$commentaire= "none";
+	$ent_site = $this->getDoctrine()->getManager()->getRepository('LciBoilerBoxBundle:Site')->find("2");
+	if (isset($_POST['action']))
+  	{
+		$action = $_POST['action'];
+	}
+	switch ($action) {
+		case 'creer':
+			// Lors de la création on retourne l'identifiant du nouveau commentaire pour pouvoir le supprimer ou le modifier au besoin
+			$commentaire = $_POST['commentaire'];
+			$id_site = $_POST['idSite'];
+			$ent_site = $this->getDoctrine()->getManager()->getRepository('LciBoilerBoxBundle:Site')->find($id_site);
+
+			$ent_commentaire = new CommentairesSite();
+			$ent_commentaire->setAuteur($this->get('security.token_storage')->getToken()->getUser()->getUsername());
+			$ent_commentaire->setDtCreation(new \Datetime(date('Y-m-d h:i:s')));
+	 		$ent_commentaire->setCommentaire($commentaire);
+			$ent_commentaire->setSite($ent_site);
+			$this->getDoctrine()->getManager()->persist($ent_commentaire);
+			$this->getDoctrine()->getManager()->flush();
+			echo $ent_commentaire->getId();
+			break;
+		case 'modifier':
+			$commentaire = $_POST['commentaire'];
+			$id_commentaire = $_POST['idCommentaire'];
+			$ent_commentaire = $this->getDoctrine()->getManager()->getRepository('LciBoilerBoxBundle:CommentairesSite')->find($id_commentaire);
+			$ent_commentaire->setCommentaire($commentaire);	
+			$ent_commentaire->setAuteur($this->get('security.token_storage')->getToken()->getUser()->getUsername());
+			$this->getDoctrine()->getManager()->flush();
+			break;
+		case 'supprimer':
+			$id_commentaire = $_POST['idCommentaire'];
+			$ent_commentaire = $this->getDoctrine()->getManager()->getRepository('LciBoilerBoxBundle:CommentairesSite')->find($id_commentaire);
+			$this->getDoctrine()->getManager()->remove($ent_commentaire);
+			$this->getDoctrine()->getManager()->flush();
+			break;
+	}
+	return new Response();
+}
+
+// Ajout d'un fichier au site selectionné dans la popup de la page accueil
+public function setSiteFichierAction(Request $request) {
+	$fichier = $request->files->get('fichierDuSite');
+   	$status = array('status' => "success","fileUploaded" => false);
+	$originalFilename = pathinfo($fichier->getClientOriginalName(), PATHINFO_FILENAME);
+	if(!is_null($fichier)){
+		$ent_site = $this->getDoctrine()->getManager()->getRepository('LciBoilerBoxBundle:Site')->find($_POST['fichierIdSite']);
+		$ent_fichier = new FichierV2();
+		$path = $this->get('kernel')->getRootDir() . '/../web/uploads/fichiersDesSites/';
+		$ent_fichier->setFile($fichier);
+		// La liaison se fait depuis le fichier car il execute lui meme  la méthode de liaison du fichier vers le site
+		$ent_site->addFichier($ent_fichier);
+		// Cette action déclanche la création des paramètres url, filename, path en PREpersist sur l'entité fichier
+		// Et le déplacement du fichier en POST persist
+		$this->getDoctrine()->getManager()->persist($ent_fichier);
+
+		$this->getDoctrine()->getManager()->flush();
+      	$status = array('status' => "success","fileUploaded" => true);
+		// On retourne le fichier serialize
+		$serializer = $this->get('serializer');
+		$jsonContent = $serializer->serialize(
+			$ent_fichier,
+       		'json', array('groups' => array('groupSite'))
+    	);
+		echo $jsonContent;
+   }
+    return new Response();
+	//return new JsonResponse($status);
+}
+
+// Fonction qui retourne une entité Site selon son id : Cette entité est serialisée pour lecture en javascript
+public function getSiteAction() {
+    $id_site = $_POST['idSite'];
+    $ent_site = $this->getDoctrine()->getManager()->getRepository('LciBoilerBoxBundle:Site')->find($id_site);
+    $serializer = $this->get('serializer');
+    $jsonContent = $serializer->serialize(
+        $ent_site,
+        'json', array('groups' => array('groupSite'))
+    );
+    echo $jsonContent;
+    return new Response();
+}
 
 }

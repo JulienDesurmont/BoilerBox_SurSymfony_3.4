@@ -17,7 +17,7 @@ protected function configure() {
 
 protected function execute(InputInterface $input, OutputInterface $output) {
 	$service_utilitaires = $this->getContainer()->get('lci_boilerbox.utilitaires');
-	$service_utilitaires->analyseAccess();
+	$service_utilitaires->analyseAccess('sites');
 	return("Fin d'analyse de la disponibilité des sites");
 }
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Importation des fichiers Binaires
-flagAnalyseAccess='/tmp/.flagBoilerBoxAnalyseAccess'
+flagAnalyseAccess='/tmp/.flagBoilerBoxAnalyseModulesAccess'
 boilerDir='/var/www/html/BoilerBox.fr/BoilerBox/'
 consoleDir=$boilerDir'/bin/console'
 cacheDir=$boilerDir'/var/cache'
@@ -11,7 +11,7 @@ cacheDir=$boilerDir'/var/cache'
 if [ -e "$flagAnalyseAccess" ]; then
 		# Si le flag existe mais que le process ne fonctionne pas : suppression du flag
 		#php /var/www/html/BoilerBox.fr/BoilerBox/src/Lci/BoilerBoxBundle/Resources/views/Utils/../../../../../../bin/console boilerbox:utils
-		processActif=`ps -ef | grep 'boilerbox:utils' | grep -v 'grep'`
+		processActif=`ps -ef | grep 'boilerbox:modulesutils' | grep -v 'grep'`
 		if [ -z "$processActif" ]; then
 			rm "$flagAnalyseAccess"
 		else
@@ -22,7 +22,7 @@ else
     # Création du flag
     touch "$flagAnalyseAccess"
     # Appel de la commande qui importe en base la liste des fichiers présents dans le dossier fichiers_binaires
-    retour=`nice -0 php $consoleDir boilerbox:utils`
+    retour=`nice -0 php $consoleDir boilerbox:modulesutils`
     # Libération du flag
     rm "$flagAnalyseAccess"
 fi
